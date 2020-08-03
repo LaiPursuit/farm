@@ -4,7 +4,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-var pub_dlg = require("pub_dlg");
+var pub_dlg = require("./pub_dlg");
 cc.Class({
     extends: cc.Component,
 
@@ -40,9 +40,9 @@ cc.Class({
             type: cc.AudioSource,
             default: null
         },
-        pub_dlg:{
-            type:pub_dlg,
-            default:null,
+        pub_dlg: {
+            type: pub_dlg,
+            default: null
         }
     },
 
@@ -53,7 +53,7 @@ cc.Class({
     start() {
         this.Start();
     },
-    hide: function () {
+    hide() {
         var ac1 = cc.fadeTo(0.5, 0);
         this.title.runAction(ac1);
         this.land.scale = 0;
@@ -68,13 +68,13 @@ cc.Class({
             this.land.runAction(ac4);
         }, 1);
     },
-    Start: function () {
+    Start() {
         this.audioSource.play();
         this.title.zIndex = 100;
         this.hide();
     },
-    shop:function(){
-        this.pub_dlg.onOpen();
+    shop() {
+        this.pub_dlg.onOpen("pub_dlg_shop");
     },
     //update(dt) { },
 });

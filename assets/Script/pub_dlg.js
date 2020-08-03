@@ -41,31 +41,34 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        this.pub_dlg.active=false;
-        this.dlg.active=false;
+        this.node.active=false;
     },
 
     start () {
 
     },
-    onExit:function(){
-        var ac1 = cc.fadeTo(0.5,0);
+    onExit(){
+        var ac1 = cc.fadeTo(0.3,0);
         this.dlg.runAction(ac1);
-        var ac2 = cc.scaleTo(0.5, 0).easing(cc.easeBackOut());
-        this.pub_dlg.runAction(ac2);
-        this.pub_dlg.active=false;
-        this.dlg.active=false;
-        this.exit.active=false;
+        var ac2 = cc.scaleTo(0.1, 0).easing(cc.easeBackOut());
+        this.exit.runAction(ac2);
+        var ac3 = cc.scaleTo(0.5, 0).easing(cc.easeBackOut());
+        var end_func = cc.callFunc(function(){
+            this.node.active = false;
+        }.bind(this));
+        var sep = cc.sequence([ac3,end_func]);
+        this.pub_dlg.runAction(sep);
     },
-    onOpen:function(){
-        this.Node.zindex=100;
-        this.pub_dlg.active=true;
-        this.dlg.active=true;
-        this.exit.active=true;
-        var ac1 = cc.fadeTo(0.5,1);
+    onOpen(name){
+        cc.log(name)
+        this.dlg.scale = 1;
+        var ac1 = cc.fadeTo(0.3,100);
         this.dlg.runAction(ac1);
-        var ac2 = cc.scaleTo(0.5, 0.7).easing(cc.easeBackOut());
-        this.pub_dlg.runAction(ac2);
+        var ac2 = cc.scaleTo(0.5, 1).easing(cc.easeBackOut());
+        this.exit.runAction(ac2);
+        var ac3 = cc.scaleTo(0.5, 0.8).easing(cc.easeBackOut());
+        this.pub_dlg.runAction(ac3);
+        this.node.active = true;
     },
     // update (dt) {},
 });
