@@ -4,7 +4,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
-var pub_dlg = require("pub_dlg");
+
 cc.Class({
     extends: cc.Component,
 
@@ -24,57 +24,48 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
-        scene: {
+        pub_dlg: {
             type: cc.Node,
             default: null
         },
-        title: {
+        dlg: {
             type: cc.Node,
             default: null
         },
-        land: {
+        exit: {
             type: cc.Node,
             default: null
         },
-        audioSource: {
-            type: cc.AudioSource,
-            default: null
-        },
-        pub_dlg:{
-            type:pub_dlg,
-            default:null,
-        }
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    //onLoad() { },
+    onLoad () {
+        this.pub_dlg.active=false;
+        this.dlg.active=false;
+    },
 
-    start() {
-        this.Start();
+    start () {
+
     },
-    hide: function () {
-        var ac1 = cc.fadeTo(0.5, 0);
-        this.title.runAction(ac1);
-        this.land.scale = 0;
-        var ac2 = cc.fadeTo(0.5, 0)
-        this.scene.runAction(ac2);
-        this.scheduleOnce(function () {
-            var ac3 = cc.fadeIn(0.8)
-            this.scene.runAction(ac3);
-            this.scene.scale = 2;
-            this.title.active = false;
-            var ac4 = cc.scaleTo(1, 1).easing(cc.easeBackOut());
-            this.land.runAction(ac4);
-        }, 1);
+    onExit:function(){
+        var ac1 = cc.fadeTo(0.5,0);
+        this.dlg.runAction(ac1);
+        var ac2 = cc.scaleTo(0.5, 0).easing(cc.easeBackOut());
+        this.pub_dlg.runAction(ac2);
+        this.pub_dlg.active=false;
+        this.dlg.active=false;
+        this.exit.active=false;
     },
-    Start: function () {
-        this.audioSource.play();
-        this.title.zIndex = 100;
-        this.hide();
+    onOpen:function(){
+        this.Node.zindex=100;
+        this.pub_dlg.active=true;
+        this.dlg.active=true;
+        this.exit.active=true;
+        var ac1 = cc.fadeTo(0.5,1);
+        this.dlg.runAction(ac1);
+        var ac2 = cc.scaleTo(0.5, 0.7).easing(cc.easeBackOut());
+        this.pub_dlg.runAction(ac2);
     },
-    shop:function(){
-        this.pub_dlg.onOpen();
-    },
-    //update(dt) { },
+    // update (dt) {},
 });
